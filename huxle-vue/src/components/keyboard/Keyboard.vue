@@ -1,6 +1,10 @@
 <script setup lang="ts">
-import type { KeyState } from "../../types";
+import { useGuessBoxStore } from "@/stores/guessBoxStore";
+import constants from "@/utils/constants";
+import type { KeyState, Letter } from "../../types";
 import KeyboardKey from "./KeyboardKey.vue";
+
+const guessBoxStore = useGuessBoxStore();
 
 defineProps<{
   keyStates: Record<string, KeyState>;
@@ -12,8 +16,34 @@ const rows = [
   ["Enter", ..."zxcvbnm".split(""), "Backspace"],
 ];
 
-function keyPressed(key: string) {
-  console.log(key);
+function keyPressed(letter: string, state: KeyState) {
+  if (letter === "Backspace") {
+    // Delete letter on Backspace click
+    guessBoxStore.updateBoxGridCell(
+      guessBoxStore.currentRow,
+      guessBoxStore.currentIndex - 1,
+      { letter: "", state }
+    );
+
+    guessBoxStore.decrementCurrentIndex();
+  } else if (letter === "Enter") {
+    // Jump to new row on Enter click
+    if (guessBoxStore.currentIndex === constants.maxIndex) {
+      guessBoxStore.incrementCurrentRow();
+      guessBoxStore.resetCurrentIndex();
+    }
+  } else {
+    // Add letter on any Button click
+    if (guessBoxStore.currentIndex < constants.maxIndex) {
+      guessBoxStore.updateBoxGridCell(
+        guessBoxStore.currentRow,
+        guessBoxStore.currentIndex,
+        { letter, state }
+      );
+    }
+
+    guessBoxStore.incrementCurrentIndex();
+  }
 }
 </script>
 
