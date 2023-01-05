@@ -8,10 +8,8 @@ const keyStates: Record<string, KeyState> = ref({});
 </script>
 
 <template>
-  <main>
-    <div class="flex flex-col h-screen max-w-md">
-      <guess-box></guess-box>
-      <Keyboard :key-states="keyStates" />
-    </div>
-  </main>
+  <div>
+    <guess-box></guess-box>
+    <Keyboard :key-states="keyStates" />
+  </div>
 </template>
