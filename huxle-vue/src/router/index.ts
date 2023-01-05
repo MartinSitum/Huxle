@@ -7,12 +7,12 @@ const router = createRouter({
   routes: [
     {
       path: "/",
-      name: "home",
+      name: "Play",
       component: HomeView,
     },
     {
       path: "/create",
-      name: "create",
+      name: "Create new Huxle",
       component: CreateView,
     },
   ],
