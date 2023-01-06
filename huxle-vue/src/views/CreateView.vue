@@ -26,9 +26,9 @@ function validateWord(value: any) {
 }
 
 function onSubmit(values: any) {
-  let hashCode = crypto.AES.encrypt(values["word-en"]+"."+values["word-de"], 'values')
+  let hashCode = crypto.AES.encrypt(values["word-en"] + "." + values["word-de"], 'values')
   console.log(hashCode.toString());
-  URL.value=`http://127.0.0.1:5173/#${hashCode.toString()}`
+  URL.value = `http://127.0.0.1:5173/#${hashCode.toString()}`
   modalOpen.value = true;
 }
 </script>
@@ -65,7 +65,7 @@ function onSubmit(values: any) {
             items-center
             justify-center
             z-10">
-      <div class="max-w-2xl p-6 rounded-md shadow-xl bg-slate-800 z-10">
+      <div class="max-w-2xl p-6 rounded-lg shadow-xl bg-slate-800 z-10">
         <div class="flex items-center justify-between">
           <h3 class="text-2xl">Huxle Created</h3>
           <svg @click="modalOpen = false" xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-red-900 cursor-pointer"
@@ -78,10 +78,14 @@ function onSubmit(values: any) {
           <p class="mb-4 text-sm">
             Use this link to share your huxle:
           </p>
-          <p class="text-md">
-            {{ URL }}
-          </p>
-          <button>Copy</button>
+          <div class="flex">
+            <span class="text-md overflow-clip break-all w-72 h-8 flex-initial border-2 rounded bg-slate-900 border-slate-400 px-2 py-0.5">
+              {{ URL }}
+            </span>
+
+            <button flex-none>Copy</button>
+          </div>
+
         </div>
       </div>
     </div>
