@@ -27,9 +27,12 @@ function validateWord(value: any) {
 
 function onSubmit(values: any) {
   let hashCode = crypto.AES.encrypt(values["word-en"] + "." + values["word-de"], 'values')
-  console.log(hashCode.toString());
-  URL.value = `http://127.0.0.1:5173/#${hashCode.toString()}`
+  URL.value = `http://127.0.0.1:5173/?play=${hashCode.toString()}`
   modalOpen.value = true;
+}
+
+function copy() {
+  navigator.clipboard.writeText(URL.value);
 }
 </script>
 
@@ -79,11 +82,9 @@ function onSubmit(values: any) {
             Use this link to share your huxle:
           </p>
           <div class="flex">
-            <span class="text-md overflow-clip break-all w-72 h-8 flex-initial border-2 rounded bg-slate-900 border-slate-400 px-2 py-0.5">
-              {{ URL }}
-            </span>
-
-            <button flex-none>Copy</button>
+            <input ref="clone" readonly :value="URL"
+              class="text-md overflow-clip break-all w-72 h-8 flex-initial border-2 rounded bg-slate-900 border-slate-400 px-2 py-0.5" />
+            <button flex-none @click="copy">Copy</button>
           </div>
 
         </div>
