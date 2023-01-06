@@ -9,12 +9,17 @@ const routeName = computed(() => {
 </script>
 
 <template>
-  <header class="flex justify-center items-center w-full bg-green-400 h-10">
-    HUXLE - {{ routeName }}
-  </header>
-  <main class="flex flex-col h-screen max-w-md mx-auto justify-evenly">
-    <RouterView />
-  </main>
+  <div class="h-screen">
+    <header class="flex justify-center items-center w-full bg-green-400 h-10">
+      HUXLE - {{ routeName }}
+    </header>
+    <main class="flex flex-col max-w-md mx-auto justify-evenly">
+      <RouterView />
+    </main>
+  </div>
+
 </template>
 
-<style scoped></style>
+<style scoped>
+
+</style>

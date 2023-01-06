@@ -12,6 +12,9 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
   },
   "dependencies": {
+    "crypto": "^1.0.1",
+    "crypto-js": "^4.1.1",
+    "jshashes": "^1.0.8",
     "pinia": "^2.0.28",
     "vue": "^3.2.45",
     "vue-i18n": "^9.2.2",
@@ -19,8 +22,9 @@
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.1.4",
+    "@types/crypto-js": "^4.1.1",
     "@types/jsdom": "^20.0.1",
-    "@types/node": "^18.11.12",
+    "@types/node": "^18.11.18",
     "@vitejs/plugin-vue": "^4.0.0",
     "@vue/eslint-config-prettier": "^7.0.0",
     "@vue/eslint-config-typescript": "^11.0.0",

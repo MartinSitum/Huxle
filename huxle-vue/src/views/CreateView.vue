@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { Form, Field, ErrorMessage } from 'vee-validate';
+import * as crypto from "crypto-js";
 
 let wordEn = ref("");
 let wordDe = ref("");
+let URL = ref("");
+let modalOpen = ref(false);
+
 
 //TODO: Change the types of the parameters and functions here
 function validateWord(value: any) {
@@ -20,13 +24,17 @@ function validateWord(value: any) {
 
   return true;
 }
+
 function onSubmit(values: any) {
-  console.log(values)
+  let hashCode = crypto.AES.encrypt(values["word-en"]+"."+values["word-de"], 'values')
+  console.log(hashCode.toString());
+  URL.value=`http://127.0.0.1:5173/#${hashCode.toString()}`
+  modalOpen.value = true;
 }
 </script>
 
 <template>
-  <div>
+  <div class="h-full mt-16">
     <Form @submit="onSubmit">
       <div class="mb-6">
         <label class="block" for="word-en">Word in English</label>
@@ -46,5 +54,36 @@ function onSubmit(values: any) {
         Create Huxle
       </button>
     </Form>
+  </div>
+
+  <!--Modal-->
+  <div class="flex justify-center">
+    <div v-show="modalOpen" class="
+            absolute
+            inset-0
+            flex
+            items-center
+            justify-center
+            z-10">
+      <div class="max-w-2xl p-6 rounded-md shadow-xl bg-slate-800 z-10">
+        <div class="flex items-center justify-between">
+          <h3 class="text-2xl">Huxle Created</h3>
+          <svg @click="modalOpen = false" xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-red-900 cursor-pointer"
+            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <div class="mt-4">
+          <p class="mb-4 text-sm">
+            Use this link to share your huxle:
+          </p>
+          <p class="text-md">
+            {{ URL }}
+          </p>
+          <button>Copy</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
