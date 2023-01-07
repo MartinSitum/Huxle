@@ -29,6 +29,7 @@ function keyPressed(letter: string, state: KeyState) {
   } else if (letter === "Enter") {
     // Jump to new row on Enter click
     if (guessBoxStore.currentIndex === constants.maxIndex) {
+      guessBoxStore.checkCurrentBoxGridRow();
       guessBoxStore.incrementCurrentRow();
       guessBoxStore.resetCurrentIndex();
     }

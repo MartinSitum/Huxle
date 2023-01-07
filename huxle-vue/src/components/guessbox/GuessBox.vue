@@ -6,14 +6,15 @@ import { ref } from "vue";
 import { useRoute } from "vue-router";
 import { useDecryptCurrentUrl } from "@/utils/composables";
 
-// Get store and initialize the Grid
+// Get store and initialize the grid
 const store = useGuessBoxStore();
 store.initializeGuessBoxGrid();
 const letterGrid = store.guessBoxGrid;
 
-const route = useRoute();
-
+// Get words from url param
 const { wordDe, wordEn } = useDecryptCurrentUrl();
+store.wordDe = wordDe.value;
+store.wordEn = wordEn.value;
 </script>
 
 <template>

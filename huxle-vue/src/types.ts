@@ -1,10 +1,8 @@
-
-
 export enum KeyState {
-  INITIAL = "",
-  CORRECT = "correct",
-  EXISTING = "existing",
-  NONEXISTING = "nonexisting",
+  INITIAL,
+  CORRECT,
+  EXISTING,
+  NONEXISTING,
 }
 
 export interface Letter {
@@ -21,4 +19,3 @@ export interface GuessLetterPosition {
   row: number;
   index: number;
 }
-
