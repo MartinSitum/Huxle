@@ -4,7 +4,7 @@ import { useGuessBoxStore } from "@/stores/guessBoxStore";
 import type { Letter } from "@/types";
 import { ref } from "vue";
 import { useRoute } from "vue-router";
-import * as crypto from "crypto-js";
+import { useDecryptCurrentUrl } from "@/utils/composables";
 
 // Get store and initialize the Grid
 const store = useGuessBoxStore();
@@ -13,18 +13,7 @@ const letterGrid = store.guessBoxGrid;
 
 const route = useRoute();
 
-let wordEn = ref("");
-let wordDe = ref("");
-
-let playQuery = route.query.play
-let playString = ""
-
-if(playQuery) {
-  playString =  crypto.AES.decrypt(playQuery.toString(), 'values').toString(crypto.enc.Utf8)
-  wordEn.value = playString.split(".")[0]
-  wordDe.value = playString.split(".")[1]
-}
-
+const { wordDe, wordEn } = useDecryptCurrentUrl();
 </script>
 
 <template>
@@ -33,6 +22,4 @@ if(playQuery) {
   </div>
 </template>
 
-<style>
-
-</style>
+<style></style>
