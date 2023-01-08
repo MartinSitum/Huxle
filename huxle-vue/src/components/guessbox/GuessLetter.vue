@@ -2,7 +2,7 @@
 import { useGuessBoxStore } from "@/stores/guessBoxStore";
 import { KeyState, type GuessLetterPosition, type Letter } from "@/types";
 import { useLetterBackground } from "@/utils/composables";
-import { computed } from "vue";
+import { computed, type ComputedRef } from "vue";
 
 const guessBoxStore = useGuessBoxStore();
 
@@ -11,18 +11,22 @@ const props = defineProps<{
   position: GuessLetterPosition;
 }>();
 
-const keyLetter = computed(() => {
+const keyLetter: ComputedRef<Letter> = computed(() => {
   return guessBoxStore.getBoxGridCellByPosition(props.position);
 });
 
-const letterBackgroundColor = useLetterBackground(keyLetter);
+const letterState: ComputedRef<KeyState> = computed(() => {
+  return keyLetter.value.state;
+});
+
+const letterBackgroundColor = useLetterBackground(letterState);
 </script>
 <template>
-  <div
-    class="flex items-center justify-center border-2 border-gray-400 h-20 uppercase"
-    :class="letterBackgroundColor"
-  >
+  <div class="flex items-center justify-center border-2 border-gray-400 h-20 uppercase"
+    :class="keyLetter.revealed ? letterBackgroundColor : ''">
     {{ keyLetter.letter }}
   </div>
 </template>
-<style></style>
+<style>
+
+</style>

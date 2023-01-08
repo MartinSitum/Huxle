@@ -24,11 +24,12 @@ export function useDecryptCurrentUrl() {
   return { wordDe, wordEn };
 }
 
-export function useLetterBackground(keyLetter: ComputedRef) {
+export function useLetterBackground(keyState: ComputedRef<KeyState>) {
   const letterBackgroundColor = computed(() => ({
-    "bg-green-500": keyLetter.value.state === KeyState.CORRECT,
-    "bg-yellow-500": keyLetter.value.state === KeyState.EXISTING,
-    "bg-red-500": keyLetter.value.state === KeyState.NONEXISTING,
+    "bg-slate-100": keyState.value === KeyState.INITIAL,
+    "bg-green-500": keyState.value === KeyState.CORRECT,
+    "bg-yellow-500": keyState.value === KeyState.EXISTING,
+    "bg-red-500": keyState.value === KeyState.NONEXISTING,
   }));
   return letterBackgroundColor;
 }

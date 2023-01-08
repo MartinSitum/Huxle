@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import { useGuessBoxStore } from "@/stores/guessBoxStore";
+import { useKeyboardStore } from "@/stores/keyboardStore";
 import constants from "@/utils/constants";
+import { ref } from "vue";
 import type { KeyState, Letter } from "../../types";
 import KeyboardKey from "./KeyboardKey.vue";
 
 const guessBoxStore = useGuessBoxStore();
+const keyboardStore = useKeyboardStore();
 
-defineProps<{
-  keyStates: Record<string, KeyState>;
-}>();
+const keyStates = ref<Record<string, KeyState>>({});
 
 const rows = [
   "qwertyuiop".split(""),
@@ -16,13 +17,16 @@ const rows = [
   ["Enter", ..."zxcvbnm".split(""), "Backspace"],
 ];
 
+// Set KeyStates with all keys on the keyboard
+keyboardStore.setInitialKeyStates(rows.flat(1));
+
 function keyPressed(letter: string, state: KeyState) {
   if (letter === "Backspace") {
     // Delete letter on Backspace click
     guessBoxStore.updateBoxGridCell(
       guessBoxStore.currentRow,
       guessBoxStore.currentIndex - 1,
-      { letter: "", state }
+      { letter: "", state, revealed: false }
     );
 
     guessBoxStore.decrementCurrentIndex();
@@ -39,7 +43,7 @@ function keyPressed(letter: string, state: KeyState) {
       guessBoxStore.updateBoxGridCell(
         guessBoxStore.currentRow,
         guessBoxStore.currentIndex,
-        { letter, state }
+        { letter, state, revealed: false }
       );
     }
 
@@ -52,13 +56,7 @@ function keyPressed(letter: string, state: KeyState) {
   <div id="keyboard">
     <div class="flex w-full mb-2" :key="row.indexOf" v-for="(row, i) in rows">
       <div class="flex-[0.5_1_0%]" v-if="i === 1"></div>
-      <keyboard-key
-        @key-pressed="keyPressed"
-        :key="key"
-        v-for="key in row"
-        :keyState="keyStates[key]"
-        :keyLetter="key"
-      >
+      <keyboard-key @key-pressed="keyPressed" :key="key" v-for="key in row" :keyState="keyStates[key]" :keyLetter="key">
       </keyboard-key>
       <div class="flex-[0.5_1_0%]" v-if="i === 1"></div>
     </div>

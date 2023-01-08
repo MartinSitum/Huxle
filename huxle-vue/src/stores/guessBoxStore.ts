@@ -3,6 +3,7 @@ import type { Letter, GuessLetterPosition } from "@/types";
 import { KeyState } from "@/types";
 import constants from "@/utils/constants";
 import { defineStore } from "pinia";
+import { useKeyboardStore } from "@/stores/keyboardStore";
 
 interface GuessBoxState {
   currentRow: number; // current row in the grid
@@ -48,23 +49,44 @@ export const useGuessBoxStore = defineStore("guessBox", {
     },
     checkCurrentBoxGridRow() {
       const currRow: Letter[] = this.getCurrentBoxGridRow;
-
+      const keyboardStore = useKeyboardStore();
+      const keyStates = keyboardStore.keyStates;
       const solutionLetters: (string | null)[] = this.wordDe.split("");
+
+      // Check for correct letters
       currRow.forEach((letter, i) => {
         if (letter.letter === solutionLetters[i]) {
           letter.state = KeyState.CORRECT;
+          keyStates[letter.letter] = KeyState.CORRECT;
           solutionLetters[i] = null;
         }
       });
 
-      currRow.forEach((letter, i) => {
+      // Check for existing letters
+      currRow.forEach((letter) => {
         if (
           solutionLetters.includes(letter.letter) &&
           letter.state === KeyState.INITIAL
         ) {
           letter.state = KeyState.EXISTING;
           solutionLetters[solutionLetters.indexOf(letter.letter)] = null;
+          if (!keyStates[letter.letter]) {
+            keyboardStore.setKeyState(letter.letter, KeyState.EXISTING);
+          }
         }
+      });
+
+      // Check for non-exisiting letters
+      currRow.forEach((letter) => {
+        if (letter.state === KeyState.INITIAL) {
+          letter.state = KeyState.NONEXISTING;
+          if (!keyStates[letter.letter])
+            keyStates[letter.letter] = KeyState.NONEXISTING;
+        }
+      });
+
+      currRow.forEach((letter) => {
+        letter.revealed = true;
       });
     },
   },

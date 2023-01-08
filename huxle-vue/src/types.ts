@@ -8,6 +8,7 @@ export enum KeyState {
 export interface Letter {
   letter: string;
   state: KeyState;
+  revealed: boolean;
 }
 
 export interface GuessBoxState {
