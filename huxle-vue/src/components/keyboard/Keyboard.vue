@@ -11,14 +11,10 @@ const keyboardStore = useKeyboardStore();
 
 const keyStates = ref<Record<string, KeyState>>({});
 
-const rows = [
-  "qwertyuiop".split(""),
-  "asdfghjkl".split(""),
-  ["Enter", ..."zxcvbnm".split(""), "Backspace"],
-];
+const rows = constants.rows;
 
 // Set KeyStates with all keys on the keyboard
-keyboardStore.setInitialKeyStates(rows.flat(1));
+keyboardStore.setInitialKeyStates(constants.rowsFlat);
 
 function keyPressed(letter: string, state: KeyState) {
   if (letter === "Backspace") {

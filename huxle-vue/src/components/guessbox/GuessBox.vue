@@ -1,20 +1,12 @@
 <script setup lang="ts">
 import GuessRow from "./GuessRow.vue";
-import { useGuessBoxStore } from "@/stores/guessBoxStore";
-import type { Letter } from "@/types";
-import { ref } from "vue";
-import { useRoute } from "vue-router";
-import { useDecryptCurrentUrl } from "@/utils/composables";
+import { useInitializeGuessBox } from "@/utils/composables";
+import { useI18n } from "vue-i18n";
+
+const { locale } = useI18n();
 
 // Get store and initialize the grid
-const store = useGuessBoxStore();
-store.initializeGuessBoxGrid();
-const letterGrid = store.guessBoxGrid;
-
-// Get words from url param
-const { wordDe, wordEn } = useDecryptCurrentUrl();
-store.wordDe = wordDe.value;
-store.wordEn = wordEn.value;
+const letterGrid = useInitializeGuessBox(locale.value);
 </script>
 
 <template>
@@ -23,4 +15,6 @@ store.wordEn = wordEn.value;
   </div>
 </template>
 
-<style></style>
+<style>
+
+</style>

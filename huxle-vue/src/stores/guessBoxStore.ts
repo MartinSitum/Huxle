@@ -4,11 +4,14 @@ import { KeyState } from "@/types";
 import constants from "@/utils/constants";
 import { defineStore } from "pinia";
 import { useKeyboardStore } from "@/stores/keyboardStore";
+import { useI18n } from "vue-i18n";
+import { i18n } from "../i18n/setup";
 
 interface GuessBoxState {
   currentRow: number; // current row in the grid
   currentIndex: number; // current cell on the current row
   guessBoxGrid: Letter[][];
+  currLang: string;
   wordDe: string;
   wordEn: string;
 }
@@ -19,6 +22,7 @@ export const useGuessBoxStore = defineStore("guessBox", {
       currentRow: 0,
       currentIndex: 0,
       guessBoxGrid: [],
+      currLang: "",
       wordDe: "",
       wordEn: "",
     };
@@ -39,10 +43,11 @@ export const useGuessBoxStore = defineStore("guessBox", {
     resetCurrentIndex(): void {
       this.currentIndex = 0;
     },
-    initializeGuessBoxGrid(): void {
+    initializeGuessBoxGrid(locale: string): void {
       this.guessBoxGrid = [...Array(6)].map(() =>
         Array(5).fill({ letter: "", state: KeyState.INITIAL })
       );
+      this.currLang = locale;
     },
     updateBoxGridCell(row: number, index: number, letter: Letter): void {
       this.guessBoxGrid[row][index] = letter;
@@ -51,7 +56,13 @@ export const useGuessBoxStore = defineStore("guessBox", {
       const currRow: Letter[] = this.getCurrentBoxGridRow;
       const keyboardStore = useKeyboardStore();
       const keyStates = keyboardStore.keyStates;
-      const solutionLetters: (string | null)[] = this.wordDe.split("");
+
+      let solutionLetters: (string | null)[] = [];
+      if (this.currLang === "de") {
+        solutionLetters = this.wordDe.split("");
+      } else {
+        solutionLetters = this.wordEn.split("");
+      }
 
       // Check for correct letters
       currRow.forEach((letter, i) => {
