@@ -14,6 +14,7 @@ interface GuessBoxState {
   currLang: string;
   wordDe: string;
   wordEn: string;
+  winState: number;
 }
 
 export const useGuessBoxStore = defineStore("guessBox", {
@@ -25,6 +26,7 @@ export const useGuessBoxStore = defineStore("guessBox", {
       currLang: "",
       wordDe: "",
       wordEn: "",
+      winState: 0
     };
   },
   actions: {
@@ -56,7 +58,7 @@ export const useGuessBoxStore = defineStore("guessBox", {
       const currRow: Letter[] = this.getCurrentBoxGridRow;
       const keyboardStore = useKeyboardStore();
       const keyStates = keyboardStore.keyStates;
-
+      let correctLetterCount = 0;
       let solutionLetters: (string | null)[] = [];
       if (this.currLang === "de") {
         solutionLetters = this.wordDe.split("");
@@ -70,6 +72,7 @@ export const useGuessBoxStore = defineStore("guessBox", {
           letter.state = KeyState.CORRECT;
           keyStates[letter.letter] = KeyState.CORRECT;
           solutionLetters[i] = null;
+          correctLetterCount++;
         }
       });
 
@@ -96,9 +99,17 @@ export const useGuessBoxStore = defineStore("guessBox", {
         }
       });
 
+      // Reveal
       currRow.forEach((letter) => {
         letter.revealed = true;
       });
+
+      //Check for end condition
+      if(correctLetterCount === 5) {
+        this.winState = 1;
+      } else if((this.currentRow+1) >= constants.maxRows){
+        this.winState = 2;
+      }
     },
   },
   getters: {

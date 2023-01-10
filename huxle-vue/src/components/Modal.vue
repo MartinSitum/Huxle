@@ -1,7 +1,5 @@
 <script setup lang="ts">import { ref } from '@vue/reactivity';
 
-let modalOpen = ref(true);
-
 let emojis = ["🎉","😢"]
 
 const props = defineProps<{
@@ -12,6 +10,7 @@ const props = defineProps<{
   emojiID: number
 }>();
 
+let modalOpen: boolean = props.open;
 </script>
 
 <template>

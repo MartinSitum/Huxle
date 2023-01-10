@@ -36,6 +36,7 @@ function keyPressed(letter: string, state: KeyState) {
   } else {
     // Add letter on any Button click
     if (guessBoxStore.currentIndex < constants.maxIndex) {
+     letter = letter.toUpperCase();
       guessBoxStore.updateBoxGridCell(
         guessBoxStore.currentRow,
         guessBoxStore.currentIndex,

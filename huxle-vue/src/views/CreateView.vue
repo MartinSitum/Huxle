@@ -25,8 +25,9 @@ function validateWord(value: any) {
 }
 
 function onSubmit(values: any) {
+  let valueString = values["word-en"].toUpperCase() + "." + values["word-de"].toUpperCase()
   let hashCode = crypto.AES.encrypt(
-    values["word-en"] + "." + values["word-de"],
+    valueString,
     "values"
   );
   URL.value = `http://localhost:5173/?play=${hashCode.toString()}`;
@@ -44,7 +45,7 @@ function copy() {
       <div class="mb-6">
         <label class="block" for="word-en">{{ $t("create.wordEn") }}</label>
         <Field
-          class="block bg-gray-50 border border-gray-300 text-gray-900 rounded w-full p-2"
+          class="block bg-gray-50 border border-gray-300 text-gray-900 rounded w-full p-2 uppercase"
           type="text"
           id="word-en"
           name="word-en"
@@ -55,7 +56,7 @@ function copy() {
       <div class="mb-6">
         <label class="block" for="word-de">{{ $t("create.wordDe") }}</label>
         <Field
-          class="block bg-gray-50 border border-gray-300 text-gray-900 rounded w-full p-2"
+          class="block bg-gray-50 border border-gray-300 text-gray-900 rounded w-full p-2 uppercase"
           type="text"
           id="word-de"
           name="word-de"

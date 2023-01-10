@@ -15,7 +15,7 @@ const routeName = computed(() => {
       <div>HUXLE - {{ routeName }}</div>
       <language-picker class="mx-10"></language-picker>
     </header>
-    <main class="flex flex-col max-w-md mx-auto justify-evenly">
+    <main class="flex flex-col max-w-md mx-auto justify-evenly ">
       <RouterView />
     </main>
   </div>

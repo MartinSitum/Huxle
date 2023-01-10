@@ -36,14 +36,12 @@ export function useDecryptCurrentUrl() {
   const wordEn = ref("");
   const wordDe = ref("");
   const playQuery = route.query.play;
-  console.log(playQuery);
   let playString = "";
 
   if (playQuery) {
     playString = crypto.AES.decrypt(playQuery.toString(), "values").toString(
       crypto.enc.Utf8
     );
-    console.log(playString);
     wordEn.value = playString.split(".")[0];
     wordDe.value = playString.split(".")[1];
   }
