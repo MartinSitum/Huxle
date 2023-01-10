@@ -1,21 +1,21 @@
-<script setup lang="ts">import { ref } from '@vue/reactivity';
+<script setup lang="ts">
+import { ref } from '@vue/reactivity';
 
 let emojis = ["🎉","😢"]
 
 const props = defineProps<{
   // keyLetter: Letter;
-  open: boolean,
   message: string,
   closeable: boolean,
   emojiID: number
 }>();
 
-let modalOpen: boolean = props.open;
+let modalOpen = ref(true);
 </script>
 
 <template>
     <!--Modal-->
-        <div v-show="modalOpen" class="absolute inset-0 flex items-center justify-center z-10 ">
+        <div v-if="modalOpen" class="absolute inset-0 flex items-center justify-center z-10 ">
             <div class="max-w-2xl p-6 rounded-lg shadow-xl bg-slate-800 z-10 w-2/4 h-2/5">
                 <div class="flex items-center justify-between w-full">
                     <h3 class="text-4xl flex-auto mx-auto text-center text-slate-100 px-auto">{{ message }}</h3>

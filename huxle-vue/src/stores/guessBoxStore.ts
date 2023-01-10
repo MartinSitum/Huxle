@@ -120,5 +120,8 @@ export const useGuessBoxStore = defineStore("guessBox", {
     getCurrentBoxGridRow(state): Letter[] {
       return state.guessBoxGrid[this.currentRow];
     },
+    getWinState(state) : number {
+      return state.winState;
+    }
   },
 });
